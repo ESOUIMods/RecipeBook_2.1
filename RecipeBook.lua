@@ -105,7 +105,6 @@ RB.MenuClickStatus = false
 
 RB.RecipeBookActive=true
 
-RB.IngredientColorPickerClicked = false
 RB.TooltipAddedByKnown = false
 
 function GetItemID(link)
@@ -402,6 +401,9 @@ function RB.OnLoad(eventCode, addOnName)--First thing when Games UI is loaded
 	for k,v in pairs(RB.items.Chars) do
 		RB.CharsName[#RB.CharsName+1]=k
 	end
+    
+    --set the global current char name
+    RB.currentCharLoaded = GetUnitName("player")
 
 	--update the loot
 	RB.SavePlayerInvent()
@@ -1001,29 +1003,26 @@ end
 function RB.FillBank(last)--Main function that goes over the table and fills the row with data
 
 	if last<=1 then debug("last<=1") return end
-	    if (RB.BankValueTable==nil) then 
-			if RB.IngredientColorPickerClicked == false then
-		    	d("No Recipes Avaliable Please Learn Some! Or Possibly Run /reloadui")
-			else
-			RB.IngredientColorPickerClicked = false
-			end	
-		    	RBUI_ContainerItemCounter:SetHidden(true)
-		    	RBUI_ContainerSlider:SetHidden(true)
-		    	RB.HideContainer(true)
-			    	for i=1,4 do
-			    		_G["RBUI_Row"..i]:SetHidden(true)
-			    	end
-		    	return
-		else
-			local texture='/esoui/art/miscellaneous/scrollbox_elevator.dds'
-			RBUI_ContainerSlider:SetHidden(false)
-	    	RBUI_ContainerSlider:SetMinMax(4,#RB.BankValueTable)
-	    	--RBUI_ContainerSlider:SetThumbTexture(texture, texture, texture, 18, (1/#RB.BankValueTable*25000)/3, 0, 0, 1, 1)
-			RBUI_ContainerSlider:SetThumbTexture(texture, texture, texture, 18, 35, 0, 0, 1, 1)
+    RB.BankValueTable=RB.items.Chars[RB.currentCharLoaded]
+    if (#RB.BankValueTable==0) then 
+    	d("No Recipes Avaliable Please Learn Some! Or Possibly Run /reloadui")
+    	RBUI_ContainerItemCounter:SetHidden(true)
+    	RBUI_ContainerSlider:SetHidden(true)
+    	RB.HideContainer(true)
 	    	for i=1,4 do
-	    		_G["RBUI_Row"..i]:SetHidden(false)
+	    		_G["RBUI_Row"..i]:SetHidden(true)
 	    	end
-	    end
+    	return 
+	else
+		local texture='/esoui/art/miscellaneous/scrollbox_elevator.dds'
+		RBUI_ContainerSlider:SetHidden(false)
+    	RBUI_ContainerSlider:SetMinMax(4,#RB.BankValueTable)
+    	--RBUI_ContainerSlider:SetThumbTexture(texture, texture, texture, 18, (1/#RB.BankValueTable*25000)/3, 0, 0, 1, 1)
+		RBUI_ContainerSlider:SetThumbTexture(texture, texture, texture, 18, 35, 0, 0, 1, 1)
+    	for i=1,4 do
+    		_G["RBUI_Row"..i]:SetHidden(false)
+    	end
+    end
     RB.CurrentLastValue=last
 
     if #RB.BankValueTable<4 then
@@ -2284,9 +2283,7 @@ function RBBuildLAMSettingsMenu()
 			RB.items.SaveVars.ingredientcolor.g = g 
 			RB.items.SaveVars.ingredientcolor.b = b
 			RB.items.SaveVars.ingredientcolor.a = a
-			RB.IngredientColorPickerClicked = true
 			RB.FillBank(4)
-			
         end)
 			RB.ingredientfonts = {"ZoFontBookLetter",
 						"ZoFontBookRubbing",
@@ -2345,7 +2342,6 @@ EVENT_MANAGER:RegisterForEvent("RBItemDestoryed", EVENT_INVENTORY_ITEM_DESTROYED
 --Event TradeSucceded
 EVENT_MANAGER:RegisterForEvent("RBTradeSucceded", EVENT_TRADE_SUCCEEDED, RB.UpdateBVT)
 --Addon initialization
-
 EVENT_MANAGER:RegisterForEvent("RecipeBook", EVENT_ADD_ON_LOADED, function (eventCode, addOnName)
     if addOnName == "RecipeBook" then
         RB.OnLoad(eventCode, addOnName)
