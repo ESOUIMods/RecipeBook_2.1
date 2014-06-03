@@ -1,0 +1,268 @@
+<GuiXml>
+	<Animations>
+		<AnimationTimeline name="RBUI_IconAnimation" >
+			<Animations>
+				<SizeAnimation duration="150" startHeight="40" startWidth="40" endHeight="70" endWidth="70" />
+			</Animations>
+		</AnimationTimeline>
+	</Animations>
+
+	<Controls>
+        <!-- Form a pacifier -->
+		<TopLevelControl name="RBUI_Blank">
+			<OnUpdate>
+				RB.Update(self)
+			</OnUpdate>
+		</TopLevelControl>
+
+		<TopLevelControl name="RBUI">
+		<Controls>
+			<!-- Harvesting display information about the subject -->
+			<Control name="RBUI_Container" mouseEnabled="true" hidden="true">
+				<Dimensions x="1060" y="720" />
+				<Controls>
+					<!-- background-->
+					<Backdrop name="$(parent)Bg" centerColor="00000000" edgeColor="00000000">
+						<Anchor point="TOPLEFT" relativePoint="TOPLEFT" offsetX="10" offsetY="0"/>
+						<Dimensions x="1060" y="720" />
+						
+					</Backdrop>
+					
+						<!--<Texture name="$(parent)Texture" textureFile="EsoUI/Art/Miscellaneous/centerscreen_left.dds" resizeToFitFile="true">-->
+						<Texture name="$(parent)Texture" textureFile="/esoui/art/lorelibrary/lorelibrary_paperbook.dds">
+						<Anchor point="TOPLEFT" relativePoint="TOPLEFT" offsetX="-40" offsetY="-40"/>
+						<Dimensions x="1095" y="940" />
+						
+					</Texture>
+
+					<!-- header -->
+					<Label name="$(parent)Title" font="ZoFontBookScroll" text="|cff8000RecipeBook v2.0b by ahostbr">
+						<Dimensions y="150" />
+						<Anchor point="TOP" relativePoint="TOP" offsetX="0" offsetY="-10"/>
+						<Controls>
+							<Button name="$(parent)Close" font="ZoFontGame" text="[X]">
+								<Anchor point="TOPRIGHT" relativeTo="RBUI_Container" relativePoint="TOPRIGHT" offsetX="0" offsetY="0"/>
+								<Dimensions x="30" y="30" />
+								<OnClicked>
+									RBUI_Container:SetHidden(true)
+									RBUI_Dropdown:SetHidden(true)
+									
+								
+									RB.PreviousButtonClicked=nil
+									RB.LastButtonClicked=nil
+								</OnClicked>
+								<OnInitialized>
+									self:SetNormalFontColor(0,255,255,.7)
+									self:SetMouseOverFontColor(0.8,0.4,0,1)
+								</OnInitialized>
+							</Button>
+							
+							<Button name="$(parent)RQHeader" font="ZoFontBookScroll" text="|cFFA500RQ |c00FFFF-">
+								<Anchor point="TOP" relativePoint="CENTER" offsetX="-150" offsetY="-10"/>
+								<Dimensions x="50" y="30" />
+								<OnClicked>
+									RQSortClick()
+								</OnClicked>
+								<OnInitialized>
+									
+								</OnInitialized>
+							</Button>
+							
+							
+							<Button name="$(parent)PRHeader" font="ZoFontBookScroll" text="|cFFA500PR |c00FFFF -">
+									<Anchor point="TOP" relativePoint="CENTER" offsetX="-100" offsetY="-10"/>
+								<Dimensions x="50" y="30" />
+								<OnClicked>
+									PRSortClick()
+								</OnClicked>
+								<OnInitialized>
+									
+								</OnInitialized>
+							</Button>
+							
+							<Button name="$(parent)QRHeader" font="ZoFontBookScroll" text="|cFFA500QR">
+								<Anchor point="TOP" relativePoint="CENTER" offsetX="-50" offsetY="-10"/>
+								<Dimensions x="50" y="30" />
+								<OnClicked>
+									QRSortClick()
+								</OnClicked>
+								<OnInitialized>
+									
+								</OnInitialized>
+							</Button>
+							
+							
+								<Button name="$(parent)Name" font="ZoFontBookScroll" text="|cFFA500Recipe |c00FFFF :">
+								<Anchor point="TOP" relativePoint="LEFT" offsetX="-250" offsetY="-10"/>
+								<Dimensions x="100" y="30" />
+								<OnClicked>
+									NameSortClick()
+								</OnClicked>
+								<OnInitialized>
+									
+								</OnInitialized>
+							</Button>
+
+							<Control name="$(parent)GuildButtons" font="ZoFontGame" text="Name">
+							</Control>
+
+							<Control name="$(parent)InventButtons" font="ZoFontBookScroll" text="Name">
+							</Control>
+							
+							<Control name="$(parent)RecipeQualityHeader" font="ZoFontBookScroll" text="Name">
+							</Control>
+							
+							<Label name="$(parent)IngredientsHeader" font="ZoFontBookScroll" text="|cFFA500Ingredients Bank-Bag|c00FFFF :">
+								<Anchor point="TOP" relativePoint="RIGHT" offsetX="-30" offsetY="-10"/>
+							</Label>
+
+						</Controls>
+					</Label>
+
+					<!-- counter things -->
+					<Label name="$(parent)ItemCounter" font="ZoFontGame" color="white">
+						<Anchor point="CENTER" relativePoint="BOTTOM" offsetX="0" offsetY="-17"/>
+					</Label>
+
+					<!-- slider -->
+					<Slider name="$(parent)Slider" mouseEnabled="true" step="1" dragFromThumb="true">
+						<Anchor point="BOTTOM" relativePoint="BOTTOMRIGHT" offsetX="-10" offsetY="-50"/>
+						<Dimensions x="16" y="565" />
+					</Slider>
+
+				</Controls>
+			</Control>
+		</Controls>
+		</TopLevelControl>
+
+		<!-- line -->
+		<Control name="RBTemplateRow" virtual="true" mouseEnabled="true">
+			<Dimensions x="1030" y="152" />
+				
+			<Controls>
+				<!-- background -->
+				<Texture name="$(parent)Bg" color="000000" alpha="0.5">
+					<AnchorFill/>
+					<Dimensions x="1030" y="59" />
+				</Texture>
+
+				<!-- backlight -->
+                <Texture name="$(parent)Highlight" textureFile="EsoUI/Art/Miscellaneous/listItem_highlight.dds" alpha="0">
+                    <AnchorFill />
+                    <TextureCoords left="0" right="1" top="0" bottom=".625" />
+                </Texture>
+
+				
+					<!-- rb ingredientbuttons -->
+				<Button name="$(parent)INGREDIENTSBUTTON1" font="ZoFontBookPaper" text="TEST1">
+						<Anchor point="CENTER" offsetX="100" offsetY="-35"/>	
+								<Dimensions x="300" y="30" />
+								<OnClicked>
+									
+								</OnClicked>
+								<OnInitialized>
+									
+								</OnInitialized>
+				</Button>
+					<Button name="$(parent)INGREDIENTSBUTTON2" font="ZoFontBookPaper" text="TEST2">
+						<Anchor point="CENTER" offsetX="100" offsetY="5"/>	
+								<Dimensions x="200" y="30" />
+								<OnClicked>
+									
+								</OnClicked>
+								<OnInitialized>
+									
+								</OnInitialized>
+				</Button>
+					<Button name="$(parent)INGREDIENTSBUTTON3" font="ZoFontBookPaper" text="TEST3">
+						<Anchor point="CENTER" offsetX="100" offsetY="45"/>	
+								<Dimensions x="300" y="30" />
+								<OnClicked>
+									
+								</OnClicked>
+								<OnInitialized>
+									
+								</OnInitialized>
+				</Button>
+					<Button name="$(parent)INGREDIENTSBUTTON4" font="ZoFontBookPaper" text="TEST4">
+						<Anchor point="CENTER" offsetX="325" offsetY="-20"/>	
+								<Dimensions x="300" y="30" />
+								<OnClicked>
+									
+								</OnClicked>
+								<OnInitialized>
+									
+								</OnInitialized>
+				</Button>
+					<Button name="$(parent)INGREDIENTSBUTTON5" sfont="ZoFontBookPaper" text="TEST5">
+						<Anchor point="CENTER" offsetX="325" offsetY="40"/>	
+								<Dimensions x="300" y="30" />
+								<OnClicked>
+									
+								</OnClicked>
+								<OnInitialized>
+									
+								</OnInitialized>
+				</Button>
+
+				<!-- Recipe Icon -->
+				<Control name="$(parent)Button">
+					<AnchorFill/>
+					<Controls>
+						<Texture name="$(parent)Icon">
+							<Anchor point="CENTER" relativePoint="LEFT" offsetX="20" offsetY="0"/>
+							<Dimensions x="40" y="40" />
+						</Texture>
+
+						<Label name="$(parent)StackCount" font="ZoFontBookScroll" horizontalAlignment="RIGHT">
+							<Anchor point="TOPLEFT" relativePoint="TOPLEFT" offsetX="0" offsetY="20"/>
+							<Dimensions x="38" y="35"/>
+						</Label>
+						
+					</Controls>
+				</Control>
+				
+				<Control name="$(parent)ITB" mouseEnabled="true">
+						<Anchor point="CENTER" relativePoint="LEFT" offsetX="225" offsetY="15"/>
+						<Dimensions x="40" y="40" />
+						<Controls>
+						
+						<Texture name="$(parent)Texture" textureFile="EsoUI/Art/Loot/loot_finesseitem.dds"> <!--resizeToFitFile="true">-->
+							<Anchor point="CENTER" relativePoint="CENTER" offsetX="0" offsetY="15"/>
+							<Dimensions x="40" y="40" />
+						</Texture>
+											
+				</Controls>
+				</Control>
+				<!-- recipe -->
+				<Label name="$(parent)Name" font="ZoFontBookPaperTitle">
+					<Anchor point="CENTERLEFT" relativePoint="CENTERLEFT" offsetX="50" offsetY="45"/>
+				</Label>
+				
+				
+				<!-- recipequality -->
+				<Label name="$(parent)RecipeQuality" font="ZoFontBookTablet">
+					<Anchor point="LEFT" offsetX="390" offsetY="35"/>
+				</Label>
+				
+				<!-- Preq -->
+				<Label name="$(parent)StatValue" color="00FFFF" font="ZoFontBookTablet">
+					<Anchor point="LEFT"  offsetX="410" offsetY="35"/>
+				</Label>
+
+				<!-- Qreq -->
+				<Label name="$(parent)SellPrice" color="00FFFF" font="ZoFontBookTablet">
+					<Anchor point="LEFT"  offsetX="430" offsetY="35"/>
+				</Label>
+				
+				
+				
+				<!-- ToolTip -->
+				<Tooltip name="$(parent)Tooltip" font="ZoFontBookPaper">
+					<AnchorFill/>
+				</Tooltip>
+
+			</Controls>
+		</Control>
+	</Controls>
+</GuiXml>

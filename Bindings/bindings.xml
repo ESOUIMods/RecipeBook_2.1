@@ -1,0 +1,15 @@
+<Bindings>
+  <Layer name="SI_KEYBINDINGS_CATEGORY_GENERAL">
+    <Category name="RecipeBook">
+      <Action name="RBSHOW">
+        <Down>RB.DoBoot()</Down>
+      </Action>
+	  <Action name="RBITSHOW">
+        <Down>RB.ShowIt()</Down>
+      </Action>
+	  <!--<Action name="CHOOSE_PORT">
+        <Down>LoadPortGUI()</Down>
+      </Action>-->
+    </Category>
+  </Layer>
+</Bindings>

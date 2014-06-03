@@ -1,0 +1,10 @@
+## Title: RecipeBook
+## APIVersion: 100004
+## SavedVariables: RB_SavedVars
+lib\LibStub.lua
+lib\LibAddonMenu-1.0.lua
+Bindings/bindings.xml
+Bindings/bindings.lua
+RecipeBook.lua
+Ingredient_IDs.lua
+RecipeBook.xml
