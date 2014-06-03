@@ -38,15 +38,15 @@ RB.dataDefaultItems = {
 		["f"] = "ZoFontBookPaper"
 	},
 	ingredientcolor = {
-		["r"] = 0.156863,
-		["g"] = 0.074510,
-		["b"] = 0.019608,
-		["a"] = 0.950820                 
+		["r"] = 1,
+		["g"] = 1,
+		["b"] = 1,
+		["a"] = 1
 	},
 	charsbuttoncolor = {
-		["r"] = 0,
-		["g"] = 0,
-		["b"] = 0,
+		["r"] = 1,
+		["g"] = 1,
+		["b"] = 1,
 		["a"] = 1
 	}
 	}
@@ -2345,4 +2345,9 @@ EVENT_MANAGER:RegisterForEvent("RBItemDestoryed", EVENT_INVENTORY_ITEM_DESTROYED
 --Event TradeSucceded
 EVENT_MANAGER:RegisterForEvent("RBTradeSucceded", EVENT_TRADE_SUCCEEDED, RB.UpdateBVT)
 --Addon initialization
-EVENT_MANAGER:RegisterForEvent("RecipeBook", EVENT_ADD_ON_LOADED, RB.OnLoad)
+
+EVENT_MANAGER:RegisterForEvent("RecipeBook", EVENT_ADD_ON_LOADED, function (eventCode, addOnName)
+    if addOnName == "RecipeBook" then
+        RB.OnLoad(eventCode, addOnName)
+    end
+end)
