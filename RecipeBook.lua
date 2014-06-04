@@ -384,17 +384,17 @@ function RB.OnLoad(eventCode, addOnName)--First thing when Games UI is loaded
 	RBBuildLAMSettingsMenu()
 	
 	--grab char name
-	thisCharName=GetUnitName("player")
+	RB.thisCharName=GetUnitName("player")
 	
 	--by default switch to this char on load, after clicking its switched ...
-	RB.LastClickedCharName = thisCharName
+	RB.LastClickedCharName = RB.thisCharName
 	
 	--store them in the tracklist table b4 reset
-	RB.TrackList = RB.items.Chars[thisCharName]
-	RB.NoteArray = RB.items.Chars[thisCharName]
+	RB.TrackList = RB.items.Chars[RB.thisCharName]
+	RB.NoteArray = RB.items.Chars[RB.thisCharName]
 	
 	--reset this characters items
-	RB.items.Chars[thisCharName]={}
+	RB.items.Chars[RB.thisCharName]={}
 
 	--reset and then fill list of charcter names
 	RB.CharsName={}
@@ -402,9 +402,6 @@ function RB.OnLoad(eventCode, addOnName)--First thing when Games UI is loaded
 		RB.CharsName[#RB.CharsName+1]=k
 	end
     
-    --set the global current char name
-    RB.currentCharLoaded = GetUnitName("player")
-
 	--update the loot
 	RB.SavePlayerInvent()
 
@@ -1003,7 +1000,7 @@ end
 function RB.FillBank(last)--Main function that goes over the table and fills the row with data
 
 	if last<=1 then debug("last<=1") return end
-    RB.BankValueTable=RB.items.Chars[RB.currentCharLoaded]
+    RB.BankValueTable=RB.items.Chars[RB.thisCharName]
     if (#RB.BankValueTable==0) then 
     	d("No Recipes Avaliable Please Learn Some! Or Possibly Run /reloadui")
     	RBUI_ContainerItemCounter:SetHidden(true)
@@ -1764,7 +1761,7 @@ function RB.SavePlayerInvent()--Called on Load/Close To Fill Backpack Data
 
 	
 	--reset items table
-	RB.items.Chars[thisCharName]={}
+	RB.items.Chars[RB.thisCharName]={}
 	
 	--get number of recipe lists in the game
 	local lists = GetNumRecipeLists()
@@ -1858,7 +1855,7 @@ function RB.SavePlayerInvent()--Called on Load/Close To Fill Backpack Data
 						
 						
 			--add to table
-			RB.items.Chars[thisCharName][#RB.items.Chars[thisCharName]+1]={
+			RB.items.Chars[RB.thisCharName][#RB.items.Chars[RB.thisCharName]+1]={
 				["link"]=tostring(clearlink),
 				["icon"] = icontexture,
 				["name"]=zo_strformat(SI_TOOLTIP_ITEM_NAME,recipename),
@@ -1868,7 +1865,7 @@ function RB.SavePlayerInvent()--Called on Load/Close To Fill Backpack Data
 				["recipequality"]=recipequality,
 				["qualityReq"] = qualityReq,
 				["tracked"] = thisrecipeistracked,
-				["charname"] = thisCharName,
+				["charname"] = RB.thisCharName,
 				["charscount"] = CharsCount,
 				["recipetype"] = RBrecipetype,
 				["visible"] = RBrecipetypertnr,
